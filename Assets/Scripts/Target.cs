@@ -33,33 +33,41 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown() 
     {  
-        Destroy(gameObject);
-        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        if(gameObject.name == "Barril(Clone)")
+        if(gameManager.isGameActive)
         {
-            gameManager.UpdateScore(10);
-            gameManager.mouseClicks = 0;
-        }
-        else if(gameObject.name == "Caja(Clone)")
-        {
-            gameManager.UpdateScore(1);
-            gameManager.mouseClicks = 0;
-        }
-        else if(gameObject.name == "CajaRandom(Clone)")
-        {
-            int randomScore = Random.Range(-5, 15);
-            gameManager.UpdateScore(randomScore);
-            gameManager.mouseClicks = 0;
-        }
-        else if(gameObject.name == "Bomba(Clone)")
-        {
-            gameManager.UpdateScore(-10);
-            gameManager.mouseClicks = 0;
-        }
+            Destroy(gameObject);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            if(gameObject.name == "Barril(Clone)")
+            {
+                gameManager.UpdateScore(10);
+                gameManager.mouseClicks = 0;
+            }
+            else if(gameObject.name == "Caja(Clone)")
+            {
+                gameManager.UpdateScore(1);
+                gameManager.mouseClicks = 0;
+            }
+            else if(gameObject.name == "CajaRandom(Clone)")
+            {
+                int randomScore = Random.Range(-5, 15);
+                gameManager.UpdateScore(randomScore);
+                gameManager.mouseClicks = 0;
+            }
+            else if(gameObject.name == "Bomba(Clone)")
+            {
+                gameManager.UpdateScore(-10);
+                gameManager.mouseClicks = 0;
+            }
+        }        
     }
     private void OnTriggerEnter(Collider other) 
     {
         Destroy(gameObject);
+
+        if(!gameObject.CompareTag("Bad"))
+        {
+            gameManager.GameOver();
+        }        
     }
 
     Vector3 RandomForce()
